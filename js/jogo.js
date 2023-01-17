@@ -19,6 +19,11 @@ const createElement = (tag, className) => {
 let = firstCard = '';
 let = secondCard = '';
 
+const checkCards = () => {
+     const firstCharacter = firstCard.getAttribute('data-character')
+     const secondCharacter = secondCard.getAttribute('data-character')
+}
+
 const revealCard = ({target}) => {
 
     if(target.parentNode.className.includes('reveal-card')){
@@ -33,23 +38,25 @@ const revealCard = ({target}) => {
         target.parentNode.classList.add('reveal-card');
         secondCard = target.parentNode;
 
+    checkCards();
         
     }
 
 }
 
-const createCard = (characters) => {
+const createCard = (character) => {
 
     const card = createElement('div', 'card');
     const front = createElement('div', 'face front');
     const back = createElement('div', 'face back');
 
-    front.style.backgroundImage = `url(../images/${characters}.svg)`;
+    front.style.backgroundImage = `url(../images/${character}.svg)`;
 
     card.appendChild(front);
     card.appendChild(back);
 
     card.addEventListener('click', revealCard);
+    card.setAttribute('data-character', character)
 
     return card;
 }

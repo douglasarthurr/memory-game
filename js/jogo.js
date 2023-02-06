@@ -1,4 +1,6 @@
 const grid = document.querySelector('.grid')
+const spanPlayer = document.querySelector(".player")
+const timer = document.querySelector(".timer")
 
 const characters = [
     'carta-cpu',
@@ -16,12 +18,41 @@ const createElement = (tag, className) => {
     
 }
 
-let = firstCard = '';
-let = secondCard = '';
+let firstCard = '';
+let secondCard = '';
+
+const checkEndGame = () =>{
+  const disabledCards = document.querySelectorAll(".disabled-card");
+  if(disabledCards.length === 10 ){
+      setTimeout(() => {
+          clearInterval(this.loop)
+          alert(`Parabéns ${spanPlayer.innerHTML}! Seu tempo foi: ${timer.innerHTML}`)
+      }, 200)
+
+  }
+
+};
 
 const checkCards = () => {
-     const firstCharacter = firstCard.getAttribute('data-character')
-     const secondCharacter = secondCard.getAttribute('data-character')
+    const firstCharacter = firstCard.getAttribute('data-character')
+    const secondCharacter = secondCard.getAttribute('data-character')
+    if(firstCharacter === secondCharacter){
+        firstCard.firstChild.classList.add('disabled-card');
+        secondCard.firstChild.classList.add('disabled-card');
+        firstCard = "";
+        secondCard = "";
+
+        checkEndGame()
+
+    }else{
+        setTimeout(() => {
+            firstCard.classList.remove('reveal-card')
+            secondCard.classList.remove('reveal-card')
+            firstCard = "";
+            secondCard = "";
+        }, 500)
+
+    };
 }
 
 const revealCard = ({target}) => {
@@ -38,9 +69,8 @@ const revealCard = ({target}) => {
         target.parentNode.classList.add('reveal-card');
         secondCard = target.parentNode;
 
-    checkCards();
-        
     }
+    checkCards();
 
 }
 
@@ -57,6 +87,7 @@ const createCard = (character) => {
 
     card.addEventListener('click', revealCard);
     card.setAttribute('data-character', character)
+
 
     return card;
 }
@@ -75,4 +106,20 @@ const loadGame = () => {
     });
 }
 
-loadGame();
+const startTimer = () =>{
+    this.loop = setInterval(()=>{
+
+        const currentTime = + timer.innerHTML;
+        timer.innerHTML = currentTime + 1 ;
+
+    }, 1000)
+}
+
+window.onload = () =>{
+
+    spanPlayer.innerHTML = localStorage.getItem('player');
+    startTimer();
+    loadGame();
+}
+
+
